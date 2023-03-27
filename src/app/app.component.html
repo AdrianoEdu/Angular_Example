@@ -11,21 +11,55 @@
 <body class="body-background">
   <h1 class="h-centralize">Angular Simple Example - CRUD</h1>
 
-
   <div class="div-grid">
-    <div class="div-inline-grid">
-      <label class="label-properties" for="name">Name</label>
-      <input class="input-properties" [(ngModel)]="user.name">
-      <label class="label-properties" for="email">Email</label>
-      <input class="input-properties" [(ngModel)]="user.email">
-      <label class="label-properties" for="address">Address</label>
-      <input class="input-properties" [(ngModel)]="user.address">
-      <label class="label-properties" for="city">City</label>
-      <input class="input-properties" [(ngModel)]="user.city">
-      <label class="label-properties" for="state">State</label>
-      <input class="input-properties" [(ngModel)]="user.state">
+    <div class="div-inline-block">
+      <div class="div-inline-grid">
+        <label class="label-properties" for="name">Name</label>
+        <input class="input-properties" [(ngModel)]="user.name">
+        <label class="label-properties" for="email">Email</label>
+        <input class="input-properties" [(ngModel)]="user.email">
+        <label class="label-properties" for="address">Address</label>
+        <input class="input-properties" [(ngModel)]="user.address">
+        <label class="label-properties" for="city">City</label>
+        <input class="input-properties" [(ngModel)]="user.city">
+        <label class="label-properties" for="state">State</label>
+        <input class="input-properties" [(ngModel)]="user.state">
+        <input type="button" class="input-properties-button" value="Register" (click)="registerUser()">
+      </div>
+      <div class="div-inline-block">
+        <div class="div-grid">
+          <table style="width: 500px;">
+            <thead>
+              <tr class="table-td-head-tr">
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Update</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of this.arrayUsers">
+                <td class="table-td-body-row">{{user.name}}</td>
+                <td class="table-td-body-row">{{user.email}}</td>
+                <td class="table-td-body-row">{{user.address}}</td>
+                <td class="table-td-body-row">{{user.city}}</td>
+                <td class="table-td-body-row">{{user.state}}</td>
+                <td class="table-td-body-row">
+                  <input class="input-properties-button-update-delete" type="button" (click)="updateUser(user)">
+                </td>
+                <td class="table-td-body-row">
+                  <input class="input-properties-button-update-delete" type="button" (click)="deleteUser(user)">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
     </div>
-    <input type="button" class="input-properties-button" value="Register">
   </div>
 
 

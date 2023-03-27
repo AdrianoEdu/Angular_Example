@@ -22,10 +22,14 @@
     display: inline;
 }
 
+.div-inline-block{
+    display: inline-block;
+}
+
 .div-grid{
-    width: 35%;
+    width: 100%;
     display: grid;
-    margin-top: 5%;
+    margin-top: 2%;
     border-style: dashed;
     border-width: 2px;
 }
@@ -50,4 +54,13 @@
 
     color: black;
     font-weight: bold;
+}
+
+.input-properties-button-update-delete{
+    width: 20px;
+    margin: auto auto;
+}
+
+.table-td-body-row{
+    text-align: center;
 }
