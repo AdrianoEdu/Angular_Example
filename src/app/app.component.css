@@ -1,0 +1,28 @@
+.body-background{
+    background-color: gray;
+}
+
+.h-centralize{
+    text-align: center;
+}
+
+.label-properties{
+    font-size: 28px;
+    margin-left: 5%;
+    margin-top: 2%;
+}
+
+.input-properties{
+    width: 10%;
+    margin-left: 5%;
+    font-size: 22px;
+    border-radius: 5px;
+}
+
+.div-inline{
+    display: inline;
+}
+
+.div-grid{
+    display: grid;
+}
