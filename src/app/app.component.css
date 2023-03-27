@@ -9,11 +9,10 @@
 .label-properties{
     font-size: 28px;
     margin-left: 5%;
-    margin-top: 2%;
 }
 
 .input-properties{
-    width: 10%;
+    width: 90%;
     margin-left: 5%;
     font-size: 22px;
     border-radius: 5px;
@@ -24,5 +23,31 @@
 }
 
 .div-grid{
+    width: 35%;
     display: grid;
+    margin-top: 5%;
+    border-style: dashed;
+    border-width: 2px;
+}
+
+.div-inline-grid{
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    margin: 5%;
+
+}
+
+.input-properties-button{
+    margin-left: 25%;
+    margin-top: 5%;
+
+    width: 195px;
+    height: 30px;
+
+    border-radius: 5px;
+    border-color: azure;
+    background-color: gray;
+
+    color: black;
+    font-weight: bold;
 }

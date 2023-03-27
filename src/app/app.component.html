@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
-<body class="body-background">
-    <h1 class="h-centralize">Angular Simple Example - CRUD</h1>
 
-    <div class="div-inline">
+<body class="body-background">
+  <h1 class="h-centralize">Angular Simple Example - CRUD</h1>
+
+
+  <div class="div-grid">
+    <div class="div-inline-grid">
       <label class="label-properties" for="name">Name</label>
       <input class="input-properties" [(ngModel)]="user.name">
       <label class="label-properties" for="email">Email</label>
@@ -21,9 +25,10 @@
       <label class="label-properties" for="state">State</label>
       <input class="input-properties" [(ngModel)]="user.state">
     </div>
-
-
+    <input type="button" class="input-properties-button" value="Register">
+  </div>
 
 
 </body>
+
 </html>
