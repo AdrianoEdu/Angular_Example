@@ -66,6 +66,6 @@ export class AppComponent {
   }
 
   isEmptyUser(): Boolean {
-    return this.user.name != "" && this.user.address != "";
+    return this.user.name != undefined && this.user.address != undefined;
   }
 }
