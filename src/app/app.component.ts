@@ -33,7 +33,6 @@ export class AppComponent {
     }
     else
     {
-      this.deleteUser(this.user);
       this.insertUser(this.user);
       console.log("Updated Success ! " + this.arrayUsers);
     }
@@ -45,6 +44,19 @@ export class AppComponent {
   }
 
   insertUser(user: User){
+    if (this.insert === false)
+    {
+      let index = this.arrayUsers.findIndex(x => x.email == user.email);
+
+      if(index === -1)
+      {
+        console.error("Field email is unique and cannot be changed");
+        return;
+      }
+
+      this.deleteUser(this.user);
+    }
+
     this.arrayUsers.push(user);
     this.cleanUser();
   }
@@ -61,11 +73,11 @@ export class AppComponent {
 
   deleteUser(user: User)
   {
-    let index = this.arrayUsers.findIndex(x => x.email == this.user.email);
+    let index = this.arrayUsers.findIndex(x => x.email == user.email);
     this.arrayUsers.splice(index, 1);
   }
 
   isEmptyUser(): Boolean {
-    return this.user.name != undefined && this.user.address != undefined;
+    return this.user.name != undefined && this.user.email != undefined;
   }
 }
