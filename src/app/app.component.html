@@ -24,7 +24,7 @@
         <input class="input-properties" [(ngModel)]="user.city">
         <label class="label-properties" for="state">State</label>
         <input class="input-properties" [(ngModel)]="user.state">
-        <input type="button" class="input-properties-button" value="Register" (click)="registerUser()">
+        <input type="button" class="input-properties-button" value="Register" (click)="CreateOrUpdate()">
       </div>
       <div class="div-inline-block">
         <div class="div-grid">
@@ -48,7 +48,7 @@
                 <td class="table-td-body-row">{{user.city}}</td>
                 <td class="table-td-body-row">{{user.state}}</td>
                 <td class="table-td-body-row">
-                  <input class="input-properties-button-update-delete" type="button" (click)="updateUser(user)">
+                  <input class="input-properties-button-update-delete" type="button" (click)="selectUser(user)">
                 </td>
                 <td class="table-td-body-row">
                   <input class="input-properties-button-update-delete" type="button" (click)="deleteUser(user)">

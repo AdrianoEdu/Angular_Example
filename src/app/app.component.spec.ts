@@ -1,19 +1,23 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+
+  let fixture: ComponentFixture<AppComponent>;
+  let appInstance: AppComponent;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         FormsModule
       ],
       declarations: [
         AppComponent
       ],
     }).compileComponents();
+    fixture = TestBed.createComponent(AppComponent);
+    appInstance = fixture.componentInstance;
   });
 
   var user = ({
@@ -25,55 +29,49 @@ describe('AppComponent', () => {
   })
 
   // Test Validate of create app
-  //
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(appInstance).toBeTruthy();
   });
 
   it(`should have as title 'AngularExample'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('AngularExample');
+    expect(appInstance.title).toEqual('AngularExample');
   });
 
   it('should add user in array', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const instance = fixture.componentInstance;
+    appInstance.insertUser(user);
 
-    instance.insertUser(user);
-
-    expect(instance.arrayUsers.length).toBeGreaterThanOrEqual(1);
+    expect(appInstance.arrayUsers.length).toEqual(1);
   });
 
   it('should remove user in array', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const instance = fixture.componentInstance;
+    appInstance.insertUser(user);
+    appInstance.deleteUser(user);
 
-    instance.insertUser(user);
-    instance.deleteUser(user);
-
-    expect(instance.arrayUsers).toBeLessThan(1);
+    expect(appInstance.arrayUsers.length).toEqual(0);
   });
 
   it('should update user in array', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const instance = fixture.componentInstance;
+    appInstance.insertUser(user);
 
-    instance.insertUser(user);
+    appInstance.selectUser(user);
 
-    var userUpdate = ({
-      "name": "Eduardo",
-      "state": "MG",
-      "city": "PA",
-      "address": "Terrado",
-      "email": "a@gmail.com"
-    })
+    appInstance.user.name = "Eduardo"
 
-    instance.updateUser(userUpdate);
-    instance.insertUser(userUpdate);
+    appInstance.insertUser(appInstance.user);
 
-    expect(instance.arrayUsers.length).toBeGreaterThanOrEqual(1);
+    expect(appInstance.arrayUsers.length).toEqual(1);
   })
+
+  it('should add users gonna be called', () => {
+    // appInstance = jasmine.createSpyObj("AppComponent", ["insertUser"]);
+    // Object.getOwnPropertyDescriptor(appInstance, "insertUser")?.value.and.returnValue("DDDD");
+
+    // appInstance.insertUser(user);
+
+    // expect(appInstance.insertUser).toHaveBeenCalled();
+    appInstance.insertUser(user);
+    appInstance.insertUser(user);
+    expect(appInstance.insertUser).toThrowError();
+
+  });
 });
