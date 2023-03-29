@@ -28,7 +28,7 @@ export class AppComponent {
     } catch (error) {
       return this.enumStatusCode.INTERNAL_SERVER_ERROR;
     }
-    finally{
+    finally {
       this.cleanUser();
     }
   }
@@ -43,9 +43,9 @@ export class AppComponent {
     user.id = this.generateIdRandom();
     this.arrayUsers.push(user);
 
-    console.log("Registered Success ! " + this.arrayUsers);
+    console.log("Registered Success ! " + user);
 
-    return this.enumStatusCode.ACCEPTED;
+    return HttpStatusCode.CREATED;
   }
 
   updateUser(user: User): number {
@@ -56,6 +56,12 @@ export class AppComponent {
     }
 
     var index = this.getUserById(user.id, this.arrayUsers);
+''
+    if(index === -1)
+    {
+      return this.enumStatusCode.NOT_FOUND;
+    }
+
     var userByIndex = this.arrayUsers[index];
 
     userByIndex.name = user.name;
@@ -69,9 +75,17 @@ export class AppComponent {
     return this.enumStatusCode.OK;
   }
 
-  deleteUser(user: User | undefined) {
-    let index = this.getUserById(user!.id, this.arrayUsers);
+  deleteUser(user: User): HttpStatusCode {
+    let index = this.getUserById(user.id, this.arrayUsers);
+
+    if(index === -1)
+    {
+      return this.enumStatusCode.NOT_FOUND;
+    }
+
     this.arrayUsers.splice(index, 1);
+
+    return this.enumStatusCode.OK;
   }
 
   selectUser(user: User) {

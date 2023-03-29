@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { HttpStatusCode } from 'src/enum/enum';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -29,7 +30,7 @@ describe('AppComponent', () => {
     expect(appInstance.title).toEqual('AngularExample');
   });
 
-  it('should add user in array', () => {
+  it('should add user in array and validate inserted user in the list by length and status of function', () => {
     var user = appInstance.user;
 
     user.id = "";
@@ -39,9 +40,25 @@ describe('AppComponent', () => {
     user.name = "Adriano Eduardo";
     user.state = "Minas Gerais";
 
-    appInstance.CreateOrUpdate();
+    var status = appInstance.insertUser(user);
 
     expect(appInstance.arrayUsers.length).toEqual(1);
+    expect(status).toEqual(HttpStatusCode.CREATED);
+  });
+
+  it('shouldn t add user in array and validate inserted user in the list by length and status of function', () => {
+    var user = appInstance.user;
+
+    user.id = "";
+    user.address = "Rua Sapucaí";
+    user.city = "Pouso Alegre";
+    user.email = "adriano@gmail.com";
+    user.state = "Minas Gerais";
+
+    var status = appInstance.insertUser(user);
+
+    expect(appInstance.arrayUsers.length).toEqual(0);
+    expect(status).toEqual(HttpStatusCode.FORBIDDEN);
   });
 
   it('should remove user in array', () => {
@@ -54,11 +71,32 @@ describe('AppComponent', () => {
     user.name = "Adriano Eduardo";
     user.state = "Minas Gerais";
 
-    var userCreated = appInstance.CreateOrUpdate();
-    appInstance.deleteUser(userCreated);
+    appInstance.insertUser(user);
+
+    var status = appInstance.deleteUser(user);
 
     expect(appInstance.arrayUsers.length).toEqual(0);
+    expect(status).toEqual(HttpStatusCode.OK);
   });
+
+  it('shouldn t remove user in array', () => {
+    var user = appInstance.user;
+
+    user.id = "";
+    user.address = "Rua Sapucaí";
+    user.city = "Pouso Alegre";
+    user.email = "adriano@gmail.com";
+    user.name = "Adriano Eduardo";
+    user.state = "Minas Gerais";
+
+    appInstance.insertUser(user);
+
+    var status = appInstance.deleteUser(user);
+
+    expect(appInstance.arrayUsers.length).toEqual(0);
+    expect(status).toEqual(HttpStatusCode.OK);
+  });
+
 
   it('should update user in array', () => {
     var user = appInstance.user;
@@ -70,24 +108,18 @@ describe('AppComponent', () => {
     user.name = "Adriano Eduardo";
     user.state = "Minas Gerais";
 
-    appInstance.CreateOrUpdate();
+    appInstance.insertUser(user);
 
-    appInstance.selectUser(user);
+    user.email = "Eduardo Adriano";
 
-    appInstance.user.name = "Eduardo"
-
-    appInstance.insertUser(appInstance.user);
+    var status = appInstance.updateUser(user);
 
     expect(appInstance.arrayUsers.length).toEqual(1);
+    expect(status).toEqual(HttpStatusCode.OK);
   })
 
   it('should add users gonna be called', () => {
-    // appInstance = jasmine.createSpyObj("AppComponent", ["insertUser"]);
-    // Object.getOwnPropertyDescriptor(appInstance, "insertUser")?.value.and.returnValue("DDDD");
 
-    // appInstance.insertUser(user);
-
-    // expect(appInstance.insertUser).toHaveBeenCalled();
     var user = appInstance.user;
 
     user.id = "";
@@ -97,9 +129,9 @@ describe('AppComponent', () => {
     user.name = "Adriano Eduardo";
     user.state = "Minas Gerais";
 
-    var userCreated = appInstance.CreateOrUpdate();
-    appInstance.CreateOrUpdate();
-    expect(appInstance.insertUser).toThrowError();
+    var status = appInstance.insertUser(user);
+    var typeOfStatus = typeof status;
 
+    expect(status).toEqual(HttpStatusCode.CREATED);
   });
 });
