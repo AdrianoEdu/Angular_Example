@@ -20,14 +20,6 @@ describe('AppComponent', () => {
     appInstance = fixture.componentInstance;
   });
 
-  var user = ({
-    "name": "Adriano",
-    "state": "MG",
-    "city": "PA",
-    "address": "Terrado",
-    "email": "a@gmail.com"
-  })
-
   // Test Validate of create app
   it('should create the app', () => {
     expect(appInstance).toBeTruthy();
@@ -38,20 +30,47 @@ describe('AppComponent', () => {
   });
 
   it('should add user in array', () => {
-    appInstance.insertUser(user);
+    var user = appInstance.user;
+
+    user.id = "";
+    user.address = "Rua Sapucaí";
+    user.city = "Pouso Alegre";
+    user.email = "adriano@gmail.com";
+    user.name = "Adriano Eduardo";
+    user.state = "Minas Gerais";
+
+    appInstance.CreateOrUpdate();
 
     expect(appInstance.arrayUsers.length).toEqual(1);
   });
 
   it('should remove user in array', () => {
-    appInstance.insertUser(user);
-    appInstance.deleteUser(user);
+    var user = appInstance.user;
+
+    user.id = "";
+    user.address = "Rua Sapucaí";
+    user.city = "Pouso Alegre";
+    user.email = "adriano@gmail.com";
+    user.name = "Adriano Eduardo";
+    user.state = "Minas Gerais";
+
+    var userCreated = appInstance.CreateOrUpdate();
+    appInstance.deleteUser(userCreated);
 
     expect(appInstance.arrayUsers.length).toEqual(0);
   });
 
   it('should update user in array', () => {
-    appInstance.insertUser(user);
+    var user = appInstance.user;
+
+    user.id = "";
+    user.address = "Rua Sapucaí";
+    user.city = "Pouso Alegre";
+    user.email = "adriano@gmail.com";
+    user.name = "Adriano Eduardo";
+    user.state = "Minas Gerais";
+
+    appInstance.CreateOrUpdate();
 
     appInstance.selectUser(user);
 
@@ -69,8 +88,17 @@ describe('AppComponent', () => {
     // appInstance.insertUser(user);
 
     // expect(appInstance.insertUser).toHaveBeenCalled();
-    appInstance.insertUser(user);
-    appInstance.insertUser(user);
+    var user = appInstance.user;
+
+    user.id = "";
+    user.address = "Rua Sapucaí";
+    user.city = "Pouso Alegre";
+    user.email = "adriano@gmail.com";
+    user.name = "Adriano Eduardo";
+    user.state = "Minas Gerais";
+
+    var userCreated = appInstance.CreateOrUpdate();
+    appInstance.CreateOrUpdate();
     expect(appInstance.insertUser).toThrowError();
 
   });

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from 'src/model/user';
+import { HttpStatusCode } from 'src/enum/enum';
 
 @Component({
   selector: 'app-root',
@@ -12,61 +13,67 @@ export class AppComponent {
 
   public user: User = {} as User;
   public arrayUsers: Array<User> = [];
-  public insert: Boolean = true;
+  public enumStatusCode = HttpStatusCode;
 
-  show() {
-    console.log(this.user)
-  }
-
-  CreateOrUpdate() {
+  CreateOrUpdate(): number {
     var user = this.user;
 
-    if (user.id === undefined || user.id === "") {
-      this.insertUser(user);
+    try {
+      if (user.id === undefined || user.id === "") {
+        return this.insertUser(user);
+      }
+      else {
+        return this.updateUser(user);
+      }
+    } catch (error) {
+      return this.enumStatusCode.INTERNAL_SERVER_ERROR;
     }
-    else {
-      this.updateUser(user);
+    finally{
+      this.cleanUser();
     }
-
-    this.cleanUser();
-    console.log(this.arrayUsers);
   }
 
-  cleanUser() {
-    this.user = {} as User;
-    this.insert = true;
+  insertUser(user: User): number {
+
+    if (this.isEmptyUser(user)) {
+      console.error("User name and address are empty");
+      throw new Error("dadada");
+    }
+
+    user.id = this.generateIdRandom();
+    this.arrayUsers.push(user);
+
+    console.log("Registered Success ! " + this.arrayUsers);
+
+    return this.enumStatusCode.ACCEPTED;
   }
 
-  insertUser(user: User) {
+  updateUser(user: User): number {
+
     if (this.isEmptyUser(user)) {
 
-      user.id = this.generateIdRandom();
-      this.arrayUsers.push(user);
-
-      console.log("Registered Success ! " + this.arrayUsers);
-    }
-    else {
       console.error("User name and address are empty");
+
+      return this.enumStatusCode.FORBIDDEN;
     }
+
+    var index = this.getUserById(user.id, this.arrayUsers);
+    var userByIndex = this.arrayUsers[index];
+
+    userByIndex.name = user.name;
+    userByIndex.city = user.city;
+    userByIndex.address = user.address;
+    userByIndex.email = user.email;
+    userByIndex.state = user.state;
+
+    console.log("Update Success ! " + this.arrayUsers);
+
+    return this.enumStatusCode.OK;
   }
 
-  updateUser(user: User) {
-    if (this.isEmptyUser(user)) {
-
-      var index = this.getUserById(user.id, this.arrayUsers);
-      var userByIndex = this.arrayUsers[index];
-
-      userByIndex.name = user.name;
-      userByIndex.city = user.city;
-      userByIndex.address = user.address;
-      userByIndex.email = user.email;
-      userByIndex.state = user.state;
-
-      console.log("Update Success ! " + this.arrayUsers);
-    }
-    else {
-      console.error("User name and address are empty");
-    }
+  deleteUser(user: User | undefined) {
+    let index = this.getUserById(user!.id, this.arrayUsers);
+    this.arrayUsers.splice(index, 1);
   }
 
   selectUser(user: User) {
@@ -78,22 +85,19 @@ export class AppComponent {
     this.user.id = user.id;
   }
 
-  deleteUser(user: User) {
-    let index = this.getUserById(user.id, this.arrayUsers);
-    this.arrayUsers.splice(index, 1);
+  cleanUser() {
+    this.user = {} as User;
   }
 
   isEmptyUser(user: User): Boolean {
-    return user.name != undefined && user.email != undefined;
+    return user.name === undefined || user.email === undefined;
   }
 
-  generateIdRandom()
-  {
+  generateIdRandom() {
     return (Math.random() + 1).toString(36).substring(2);
   }
 
-  getUserById(id: String, listUsers : Array<User>)
-  {
+  getUserById(id: String, listUsers: Array<User>) {
     return listUsers.findIndex(x => x.id == id);
   }
 }
