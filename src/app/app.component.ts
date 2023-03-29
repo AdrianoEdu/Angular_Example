@@ -37,7 +37,7 @@ export class AppComponent {
 
     if (this.isEmptyUser(user)) {
       console.error("User name and address are empty");
-      throw new Error("dadada");
+      return this.enumStatusCode.FORBIDDEN;
     }
 
     user.id = this.generateIdRandom();
@@ -51,9 +51,7 @@ export class AppComponent {
   updateUser(user: User): number {
 
     if (this.isEmptyUser(user)) {
-
       console.error("User name and address are empty");
-
       return this.enumStatusCode.FORBIDDEN;
     }
 
